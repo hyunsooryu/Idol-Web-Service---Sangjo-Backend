@@ -15,7 +15,7 @@ public class MemberRepository {
     private EntityManager em;
 
     public List<Member> findMembersByName(String memberName){
-        List<Member> members = em.createQuery("select m from Member m join fetch m.team t where m.name = :name")
+        List<Member> members = em.createQuery("select m from Member m join fetch m.team t where m.name like :name")
                 .setParameter("name", memberName).getResultList();
         return members;
     }
@@ -25,9 +25,10 @@ public class MemberRepository {
     }
 
     public List<Member> findMemberBySearchKey(String searchKey){
-        List<Member> members = em.createQuery("select m from Member m join fetch m.team t where m.name = :member_name or t.name = :team_name")
-                .setParameter("member_name", searchKey)
-                .setParameter("team_name", searchKey)
+        String key = "%" + searchKey + "%";
+        List<Member> members = em.createQuery("select m from Member m join fetch m.team t where m.name like :member_name or t.name like :team_name")
+                .setParameter("member_name", key)
+                .setParameter("team_name", key)
                 .getResultList();
 
         return members;

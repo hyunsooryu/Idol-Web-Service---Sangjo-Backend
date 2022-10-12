@@ -13,7 +13,7 @@ public class TeamRepository {
     private EntityManager em;
 
     public List<Member> findMembersByTeamName(String teamName){
-        List<Member> members = em.createQuery("select m from Member as m join fetch m.team as t where t.name = :name").setParameter("name", teamName)
+        List<Member> members = em.createQuery("select m from Member as m join fetch m.team as t where t.name like :name").setParameter("name", teamName)
                 .getResultList();
 
         return members;
