@@ -4,6 +4,8 @@ import com.idol.idolprojectbackend.cache.EmbeddedCache;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,8 +26,7 @@ public class FileSystemStorageService {
     private final ApplicationEventPublisher eventPublisher;
     private final FileConfig fileConfig;
 
-
-    public void store(MultipartFile file){
+    public void store(MultipartFile file) throws Exception{
         boolean wellStored = true;
         log.info("=========파일 업로드 진행 시작================");
         Path ROOT_LOCATION = Paths.get(fileConfig.getPath());
@@ -36,6 +37,7 @@ public class FileSystemStorageService {
             } catch (Exception e) {
                 wellStored = false;
                 log.error("파일 업로드 에러입니다.");
+                throw new Exception(e.getMessage());
             }
         }
         if(wellStored){

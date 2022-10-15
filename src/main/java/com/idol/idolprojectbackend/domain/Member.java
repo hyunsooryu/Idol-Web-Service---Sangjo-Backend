@@ -23,6 +23,9 @@ public class Member extends BaseEntity{
     @Column(name = "IMG_PATH")
     private String imgPath;
 
+    @Column(name = "LONG_IMG_PATH")
+    private String longImgPath;
+
     @JoinColumn(name = "TEAM_ID")
     @ManyToOne(fetch = FetchType.LAZY)
     private Team team;

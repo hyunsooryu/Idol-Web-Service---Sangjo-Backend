@@ -9,6 +9,7 @@ import com.idol.idolprojectbackend.response.MemberDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
 
 @CrossOrigin
@@ -45,7 +46,12 @@ public class ApiController {
 
     @GetMapping(path = "/member/page")
     public List<MemberDTO> getMemberByPagination(@RequestParam("pageNo") Integer pageNo){
-        return MemberDTO.convertFromMembers(memberRepository.findMemberByPageOffset((pageNo - 1) * 10));
+        return MemberDTO.convertFromMembers(memberRepository.findMemberByPageOffset((pageNo - 1) * 25));
+    }
+
+    @PostMapping(path = "/member")
+    public List<MemberDTO> getMemberByIds(@RequestBody List<Long> ids){
+        return MemberDTO.convertFromMembers(memberRepository.findMemberByIdList(ids));
     }
 
 

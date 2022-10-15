@@ -38,6 +38,10 @@ public class InitialService {
 
     private final ResourceLoader resourceLoader;
 
+    public Resource getCsvFiles(){
+        Resource fileResource = resourceLoader.getResource(fileConfig.getCsv());
+        return fileResource;
+    }
 
     @EventListener(FileEvent.class)
     @Transactional

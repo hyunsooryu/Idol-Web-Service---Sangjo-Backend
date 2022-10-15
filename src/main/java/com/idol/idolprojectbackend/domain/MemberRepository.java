@@ -37,8 +37,14 @@ public class MemberRepository {
     public List<Member> findMemberByPageOffset(int startPos){
         List<Member> members =  em.createQuery("select m from Member as m join fetch m.team")
                 .setFirstResult(startPos)
-                .setMaxResults(10).getResultList();
+                .setMaxResults(25).getResultList();
         return members;
     }
 
+
+    public List<Member> findMemberByIdList(List<Long> ids){
+        List<Member> members = em.createQuery("select m from Member as m where m.id in :ids")
+                .setParameter("ids", ids).getResultList();
+        return members;
+    }
 }

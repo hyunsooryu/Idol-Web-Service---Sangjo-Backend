@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="/webjars/vue/2.5.16/vue.min.js"></script>
+    <script src="/webjars/axios/0.27.2/dist/axios.min.js"></script>
+    <script src="/webjars/jquery/3.6.0/jquery.min.js"></script>
+    <script src="/webjars/bootstrap/5.1.3/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <link href="/webjars/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link href="/css/login.css" rel="stylesheet">
+    <script>
+        let status = "[(${status})]";
+        let msg = "[(${msg})]"
+
+    </script>
+</head>
+<body>
+<div class="wrapper fadeInDown">
+</div>
+<script>
+    if(status == "GOOD"){
+        swal("SUCCESS", "정상적으로 업로드 되었습니다.", "success").then(()=>{
+            window.location.href="/admin/login";
+        });
+    }else{
+        swal("FAIL", msg , "error").then(()=>{
+            window.location.href="/admin/login";
+        });
+    }
+</script>
+</body>
+</html>
