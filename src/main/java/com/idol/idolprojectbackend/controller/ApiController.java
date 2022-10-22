@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 @CrossOrigin
 @RestController
@@ -53,6 +54,14 @@ public class ApiController {
     public List<MemberDTO> getMemberByIds(@RequestBody List<Long> ids){
         return MemberDTO.convertFromMembers(memberRepository.findMemberByIdList(ids));
     }
+
+    @GetMapping(path = "/property")
+    Map<String, String> getProperty(@RequestParam("key") String key){
+        return embeddedCache.getProperty(key);
+    }
+
+
+
 
 
 

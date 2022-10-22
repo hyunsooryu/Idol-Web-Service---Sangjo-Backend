@@ -47,4 +47,5 @@ public class MemberRepository {
                 .setParameter("ids", ids).getResultList();
         return members;
     }
+
 }

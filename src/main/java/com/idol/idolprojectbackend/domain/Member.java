@@ -30,10 +30,12 @@ public class Member extends BaseEntity{
     @ManyToOne(fetch = FetchType.LAZY)
     private Team team;
 
-    public Member(String name, String imgPath){
+    public Member(String name, String imgPath, String longImgPath){
         this.name = name;
         this.imgPath = imgPath;
+        this.longImgPath = longImgPath;
     }
+
 
     public void changeTeam(Team team){
         team.addMember(this);

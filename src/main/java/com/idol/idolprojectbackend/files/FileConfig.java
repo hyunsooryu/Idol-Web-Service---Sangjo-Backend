@@ -14,4 +14,5 @@ import org.springframework.context.annotation.Configuration;
 public class FileConfig {
     private final String path;
     private final String csv;
+    private final String imgurl;
 }

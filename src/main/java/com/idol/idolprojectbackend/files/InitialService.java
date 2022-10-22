@@ -1,5 +1,6 @@
 package com.idol.idolprojectbackend.files;
 
+import com.idol.idolprojectbackend.cache.EmbeddedCache;
 import com.idol.idolprojectbackend.domain.Member;
 import com.idol.idolprojectbackend.domain.Team;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +33,7 @@ import java.util.Timer;
 public class InitialService {
 
     private final FileConfig fileConfig;
+    private final EmbeddedCache embeddedCache;
 
     @PersistenceContext
     private EntityManager em;
@@ -59,6 +61,7 @@ public class InitialService {
             int n = 1;
             int randomNum = 1;
             String imgUrl = "https://loremflickr.com/320/240?random=";
+            String longImgUrl = fileConfig.getImgurl();
             Team team = null;
             int lineNo = 0;
             for(String line : lines) {
@@ -81,8 +84,8 @@ public class InitialService {
                         log.info(team.getName() + "은 이미 존재하여 인서트 하지 않음");
                         team = foundTeams.get(0);
                     }
-                    Member member = new Member(temps[3], imgUrl + randomNum);
-                    List<Member> members = em.createQuery("select m from Member as m where m.name = :name")
+                    Member member = new Member(temps[3], imgUrl + randomNum, longImgUrl + "/img/" + lineNo + ".jpg");
+                    List<Member> members = em.createQuery("select m from Member as m where m.name = :name", Member.class)
                             .setParameter("name", temps[3]).getResultList();
                     if(CollectionUtils.isEmpty(members)){
                         log.info("신규 멤버추가 " + member.getName() + " | " + member.getImgPath());
@@ -95,7 +98,7 @@ public class InitialService {
                     }
 
                 } else {//member
-                    Member member = new Member(temps[3], imgUrl + randomNum);
+                    Member member = new Member(temps[3], imgUrl + randomNum, longImgUrl + "/img/" + lineNo + ".jpg");
                     List<Member> members = em.createQuery("select m from Member as m where m.name = :name")
                             .setParameter("name", temps[3]).getResultList();
                     if(CollectionUtils.isEmpty(members)){
@@ -111,7 +114,7 @@ public class InitialService {
                 randomNum++;
                 lineNo++;
             }
-
+        embeddedCache.setProperty("pageCount", String.valueOf(lineNo / 25 + 1));
 
         }catch (Exception e){
             log.error("{}", e.getMessage(), e);
@@ -135,6 +138,7 @@ public class InitialService {
             int n = 1;
             int randomNum = 1;
             String imgUrl = "https://loremflickr.com/320/240?random=";
+            String longImgUrl = fileConfig.getImgurl();
             Team team = null;
             int lineNo = 0;
             for(String line : lines) {
@@ -148,21 +152,22 @@ public class InitialService {
                     n += 1;
                     team = new Team(temps[1]);
                     em.persist(team);
-                    Member member = new Member(temps[3], imgUrl + randomNum);
+                    Member member = new Member(temps[3], imgUrl + randomNum, longImgUrl + "/img/" + lineNo + ".jpg");
                     member.changeTeam(team);
                     em.persist(member);
                 } else {//member
-                    Member member = new Member(temps[3], imgUrl + randomNum);
+                    Member member = new Member(temps[3], imgUrl + randomNum, longImgUrl + "/img/" + lineNo + ".jpg");
                     member.changeTeam(team);
                     em.persist(member);
                 }
                 randomNum++;
                 lineNo++;
             }
-
+            embeddedCache.setProperty("pageCount", String.valueOf(lineNo / 25 + 1));
 
         }catch (Exception e){
             log.error("{}", e.getMessage(), e);
+
         }
     }
 }

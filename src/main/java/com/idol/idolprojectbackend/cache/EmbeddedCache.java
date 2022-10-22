@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class EmbeddedCache {
     private final ConcurrentMap<String, List<Member>> cache = new ConcurrentHashMap<>();
+    private final ConcurrentMap<String, Map<String, String>> propertyCache = new ConcurrentHashMap<>();
     private final MemberRepository memberRepository;
 
     @EventListener(FileEvent.class)
@@ -33,6 +34,13 @@ public class EmbeddedCache {
         Set keys = new HashSet<>(cache.keySet());
         keys.forEach(cache::remove);
         log.info("=====CSV 파일 업로드로 인한 캐시 데이터 FLUSH ALL 진행 완료======== : " + LocalDateTime.now());
+    }
+
+    public Map<String,String> getProperty(String key){
+        return propertyCache.get(key);
+    }
+    public void setProperty(String key, String val){
+        propertyCache.put(key, Collections.singletonMap(key,val));
     }
 
     public List<Member> get(String key){

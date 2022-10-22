@@ -10,8 +10,12 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
 
 import javax.annotation.PostConstruct;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Queue;
 
 
 @Slf4j
@@ -27,6 +31,7 @@ public class IdolProjectBackendApplication {
         SpringApplication app = new SpringApplication(IdolProjectBackendApplication.class);
         app.setWebApplicationType(WebApplicationType.SERVLET);
         app.run(args);
+
     }
 
     @PostConstruct
