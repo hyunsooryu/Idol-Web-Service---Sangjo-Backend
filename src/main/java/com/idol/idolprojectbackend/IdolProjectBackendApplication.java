@@ -39,5 +39,4 @@ public class IdolProjectBackendApplication {
         initialService.initDataBaseFromCsv();
     }
 
-
 }

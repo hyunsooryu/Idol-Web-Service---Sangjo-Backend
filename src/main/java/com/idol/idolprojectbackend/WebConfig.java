@@ -26,6 +26,10 @@ public class WebConfig implements WebMvcConfigurer {
         reg1.addResourceLocations("classpath:/images/");
         reg1.setCacheControl(CacheControl.maxAge(Duration.ofMinutes(60)));
 
+        ResourceHandlerRegistration reg1_thumb = registry.addResourceHandler("img/thumb/**");
+        reg1_thumb.addResourceLocations("classpath:/images/thumb/");
+        reg1_thumb.setCacheControl(CacheControl.maxAge(Duration.ofMinutes(60)));
+
         ResourceHandlerRegistration reg2 = registry.addResourceHandler("css/**");
         reg2.addResourceLocations("classpath:/css/");
         reg2.setCacheControl(CacheControl.maxAge(Duration.ofMinutes(60)));

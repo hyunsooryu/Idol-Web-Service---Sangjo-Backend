@@ -60,7 +60,7 @@ public class InitialService {
             List<String> lines = Files.readAllLines(path);
             int n = 1;
             int randomNum = 1;
-            String imgUrl = "https://loremflickr.com/320/240?random=";
+            String imgUrl = fileConfig.getImgurl();
             String longImgUrl = fileConfig.getImgurl();
             Team team = null;
             int lineNo = 0;
@@ -84,7 +84,7 @@ public class InitialService {
                         log.info(team.getName() + "은 이미 존재하여 인서트 하지 않음");
                         team = foundTeams.get(0);
                     }
-                    Member member = new Member(temps[3], imgUrl + randomNum, longImgUrl + "/img/" + lineNo + ".jpg");
+                    Member member = new Member(temps[3], imgUrl + "/img/thumb/" + lineNo + ".jpg", longImgUrl + "/img/" + lineNo + ".jpg");
                     List<Member> members = em.createQuery("select m from Member as m where m.name = :name", Member.class)
                             .setParameter("name", temps[3]).getResultList();
                     if(CollectionUtils.isEmpty(members)){
@@ -98,7 +98,7 @@ public class InitialService {
                     }
 
                 } else {//member
-                    Member member = new Member(temps[3], imgUrl + randomNum, longImgUrl + "/img/" + lineNo + ".jpg");
+                    Member member = new Member(temps[3], imgUrl + "/img/thumb/" + lineNo + ".jpg", longImgUrl + "/img/" + lineNo + ".jpg");
                     List<Member> members = em.createQuery("select m from Member as m where m.name = :name")
                             .setParameter("name", temps[3]).getResultList();
                     if(CollectionUtils.isEmpty(members)){
@@ -137,7 +137,7 @@ public class InitialService {
             List<String> lines = Files.readAllLines(path);
             int n = 1;
             int randomNum = 1;
-            String imgUrl = "https://loremflickr.com/320/240?random=";
+            String imgUrl = fileConfig.getImgurl();
             String longImgUrl = fileConfig.getImgurl();
             Team team = null;
             int lineNo = 0;
@@ -152,11 +152,11 @@ public class InitialService {
                     n += 1;
                     team = new Team(temps[1]);
                     em.persist(team);
-                    Member member = new Member(temps[3], imgUrl + randomNum, longImgUrl + "/img/" + lineNo + ".jpg");
+                    Member member = new Member(temps[3], imgUrl + "/img/thumb/" + lineNo + ".jpg", longImgUrl + "/img/" + lineNo + ".jpg");
                     member.changeTeam(team);
                     em.persist(member);
                 } else {//member
-                    Member member = new Member(temps[3], imgUrl + randomNum, longImgUrl + "/img/" + lineNo + ".jpg");
+                    Member member = new Member(temps[3], imgUrl + "/img/thumb/" + lineNo + ".jpg", longImgUrl + "/img/" + lineNo + ".jpg");
                     member.changeTeam(team);
                     em.persist(member);
                 }
